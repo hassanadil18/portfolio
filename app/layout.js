@@ -3,11 +3,13 @@ import { Inter } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/footer";
-import ScrollToTop from "./components/helper/scroll-to-top";
+import dynamic from "next/dynamic";
 import Navbar from "./components/navbar";
 import "./css/card.scss";
 import "./css/globals.scss";
 const inter = Inter({ subsets: ["latin"] });
+
+const ScrollToTop = dynamic(() => import("./components/helper/scroll-to-top"), { ssr: false });
 
 export const metadata = {
   title: "Hassan Adil - Software Developer",
