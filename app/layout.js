@@ -1,7 +1,8 @@
 import { GoogleTagManager } from "@next/third-parties/google";
 import { Inter } from "next/font/google";
-import dynamic from "next/dynamic";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import dynamic from "next/dynamic";
 import Footer from "./components/footer";
 import Navbar from "./components/navbar";
 import "./css/card.scss";
@@ -10,7 +11,6 @@ import "./css/globals.scss";
 const inter = Inter({ subsets: ["latin"] });
 
 const ScrollToTop = dynamic(() => import("./components/helper/scroll-to-top"));
-const ToastContainer = dynamic(() => import("react-toastify").then(mod => ({ default: mod.ToastContainer })), { ssr: false });
 
 export const metadata = {
   title: "Hassan Adil - Software Developer",
