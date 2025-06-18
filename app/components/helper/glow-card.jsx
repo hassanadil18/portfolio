@@ -1,17 +1,26 @@
 "use client"
 
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
-const GlowCard = ({ children , identifier}) => {
+const GlowCard = ({ children, identifier }) => {
+  const [isClient, setIsClient] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const containerRef = useRef(null);
+
   useEffect(() => {
-    // Check if we're on the client side
-    if (typeof window === 'undefined') return;
+    setIsClient(true);
+    setIsMounted(true);
+  }, []);
 
-    const CONTAINER = document.querySelector(`.glow-container-${identifier}`);
-    const CARDS = document.querySelectorAll(`.glow-card-${identifier}`);
+  useEffect(() => {
+    // Only run on client side after component is mounted
+    if (!isClient || !isMounted || typeof window === 'undefined') return;
 
-    // Check if elements exist
-    if (!CONTAINER || !CARDS.length) return;
+    const CONTAINER = containerRef.current;
+    if (!CONTAINER) return;
+
+    const CARDS = CONTAINER.querySelectorAll(`.glow-card-${identifier}`);
+    if (!CARDS.length) return;
 
     const CONFIG = {
       proximity: 40,
@@ -53,8 +62,6 @@ const GlowCard = ({ children , identifier}) => {
       }
     };
 
-    document.body.addEventListener('pointermove', UPDATE);
-
     const RESTYLE = () => {
       CONTAINER.style.setProperty('--gap', CONFIG.gap);
       CONTAINER.style.setProperty('--blur', CONFIG.blur);
@@ -68,14 +75,21 @@ const GlowCard = ({ children , identifier}) => {
     RESTYLE();
     UPDATE();
 
+    // Add event listener only after ensuring document exists
+    if (typeof document !== 'undefined') {
+      document.body.addEventListener('pointermove', UPDATE);
+    }
+
     // Cleanup event listener
     return () => {
-      document.body.removeEventListener('pointermove', UPDATE);
+      if (typeof document !== 'undefined') {
+        document.body.removeEventListener('pointermove', UPDATE);
+      }
     };
-  }, [identifier]);
+  }, [identifier, isClient, isMounted]);
 
   return (
-    <div className={`glow-container-${identifier} glow-container`}>
+    <div ref={containerRef} className={`glow-container-${identifier} glow-container`}>
       <article className={`glow-card glow-card-${identifier} h-fit cursor-pointer border border-[#2a2e5a] transition-all duration-300 relative bg-[#101123] text-gray-200 rounded-xl hover:border-transparent w-full`}>
         <div className="glows"></div>
         {children}
