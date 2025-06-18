@@ -9,7 +9,7 @@ import "./css/card.scss";
 import "./css/globals.scss";
 const inter = Inter({ subsets: ["latin"] });
 
-const ScrollToTop = dynamic(() => import("./components/helper/scroll-to-top"), { ssr: false });
+const ScrollToTop = dynamic(() => import("./components/helper/scroll-to-top"));
 
 export const metadata = {
   title: "Hassan Adil - Software Developer",
