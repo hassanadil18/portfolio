@@ -10,11 +10,5 @@ export const educations = [
     title: "Intermediate in Computer Science",
     duration: "2020 - 2022",
     institution: "Govt.College University, Lahore",
-  },
-  {
-    id: 3,
-    title: "Matric in Science",
-    duration: "2018 - 2020",
-    institution: "Jinnah Officers School, Lahore",
   }
 ]
